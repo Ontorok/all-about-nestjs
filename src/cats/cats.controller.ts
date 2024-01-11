@@ -1,5 +1,14 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UseFilters,
+} from '@nestjs/common';
 import { CreateCatDto } from 'src/cats/dto/create.cat.dto';
+import { HttpExceptionFilter } from 'utils/exceptionHandlers';
 import { CatsService } from './cats.service';
 import { Cat } from './interfaces/cat.interface';
 
@@ -8,8 +17,10 @@ export class CatsController {
   constructor(private catService: CatsService) {}
 
   @Get()
+  @UseFilters(new HttpExceptionFilter())
   async findAll(): Promise<Cat[]> {
-    return this.catService.findAll();
+    // return this.catService.findAll();
+    throw new BadRequestException();
   }
 
   @Get(':id')
