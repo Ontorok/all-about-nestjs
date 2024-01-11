@@ -1,14 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
-  BadRequestException,
   Body,
   Controller,
+  ForbiddenException,
   Get,
   Param,
   Post,
-  UseFilters,
 } from '@nestjs/common';
 import { CreateCatDto } from 'src/cats/dto/create.cat.dto';
-import { HttpExceptionFilter } from 'utils/exceptionHandlers';
 import { CatsService } from './cats.service';
 import { Cat } from './interfaces/cat.interface';
 
@@ -17,16 +16,13 @@ export class CatsController {
   constructor(private catService: CatsService) {}
 
   @Get()
-  @UseFilters(new HttpExceptionFilter())
   async findAll(): Promise<Cat[]> {
-    // return this.catService.findAll();
-    throw new BadRequestException();
+    throw new ForbiddenException();
   }
 
   @Get(':id')
   findOne(@Param() params: { id: string }): string {
-    console.log(params.id);
-    return `This action returns a #${params.id} cat`;
+    throw new ForbiddenException();
   }
 
   @Post()

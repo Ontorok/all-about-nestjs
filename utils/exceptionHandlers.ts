@@ -5,6 +5,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
+import { BaseExceptionFilter } from '@nestjs/core';
 import { Request, Response } from 'express';
 
 export class ForbiddenExceptionHandler extends HttpException {
@@ -26,5 +27,12 @@ export class HttpExceptionFilter implements ExceptionFilter {
       timeStamp: new Date().toLocaleDateString(),
       path: `${request.protocol}://${request.hostname}${request.path}`,
     });
+  }
+}
+
+@Catch()
+export class AllExceptionsFilter extends BaseExceptionFilter {
+  catch(exception: unknown, host: ArgumentsHost) {
+    super.catch(exception, host);
   }
 }
